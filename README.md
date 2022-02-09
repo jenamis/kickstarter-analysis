@@ -3,18 +3,18 @@
 ## Overview of Project
 
 ### Purpose
-The purpose of this project is to analyze Kickstarter campaign data from 2010-2017 to inform the planning of a new campaign to raise funds for an up-and-coming playwright’s first play. This analysis seeks to identify factors that may contribute to a successful Kickstarter campaign, with a focus on campaigns raising funds for theater projects. The analysis will look specifically at campaign outcomes in relation to launch date and fundraising goals. I will also identify limitations of the available Kickstarter campaign data and opportunities for additional analysis that could provide further insight into designing a successful campaign. 
+The purpose of this project is to analyze Kickstarter campaign data to inform the planning of a new campaign to raise funds for an up-and-coming playwright’s first play. This analysis seeks to identify factors that may contribute to a successful Kickstarter campaign, with a focus on campaigns raising funds for theater projects. The analysis will look specifically at campaign outcomes in relation to launch date and fundraising goals. I will also identify limitations of the available Kickstarter campaign data and opportunities for additional analysis that could provide further insight into designing a successful campaign. 
 
 ## Analysis and Challenges
 
-All analysis for this project was performed using the Kickstarter dataset, which can be found here: .
+All analysis for this project was performed using the [Kickstarter dataset](Kickstarter_Challenge.xlsx.zip).
 
 ### Analysis of Outcomes Based on Launch Date
 The first analysis I performed looked at outcomes of Kickstarter campaigns for theater projects based on the month in which they were launched. 
 
 To perform this analysis, I prepared the dataset as follows:
 -	I separated the category/subcategory column used to categorize campaigns into a parent category column and subcategory column.
--	I converted the campaign launch dates from Unix timestamps to date formats using a formula. Example: (((J2/60)/60)/24)+DATE(1970,1,1,)
+-	I converted the campaign launch dates from Unix timestamps to date formats using a formula. Example: (((J2/60)/60)/24)+DATE(1970,1,1)
 -	I extracted the campaign launch years using the YEARS() function.
 
 To create a graph with launch month on the x-axis and the count of theater campaigns for each outcome category on the y-axis, I first created a pivot table with the following setup:
@@ -24,7 +24,13 @@ To create a graph with launch month on the x-axis and the count of theater campa
 -	Since the analysis is focused on theater projects, I used the parent category filter on the pivot table to include only data from campaigns in the theater category. 
 -	The pivot table for all years combined is shown below.
 
+![img1](Resources/Theater_Outcomes_vs_Launch_Table.png)
+
+
 From the pivot table, I created a line with markers pivot chart to visualize the number of theater campaigns in each outcome category by launch month. Using the years filter on the pivot table, I was able to examine campaign outcomes by month for all years combined as well as by individual year. The graph below titled Theater Outcomes Based on Launch Date shows outcomes for all years combined.
+
+![img2](Resources/Theater_Outcomes_vs_Launch.png)
+
 
 ### Analysis of Outcomes Based on Goals
 The second analysis I performed looked at outcomes of Kickstarter campaigns for plays based on their fundraising goal. 
@@ -35,12 +41,18 @@ To perform this analysis, I first created a new table to group campaigns for pla
 -	I used a formula to calculate the percentage of successful, failed, and canceled campaigns for each goal range.
 -	The final table is shown below.
 
+![img3](Resources/Outcomes_vs_Goals_Table.png)
+
+
 From this table, I created a line with markers chart with fundraising goal range on the x-axis and percentage of successful, failed, or canceled play campaigns on the y-axis. The graph below titled Play Outcomes Based on Fundraising Goal provides a visualization of how the percentage of campaigns that were successful, failed, or canceled changed as the fundraising goal increased.
+
+![img4](Resources/Outcomes_vs_Goals.png)
+
 
 ### Challenges and Difficulties Encountered
 Both challenges I encountered were in performing the analysis of outcomes based on goals.
 
-The first challenge was setting up the COUNTIFS() function correctly to count the number of successful, failed, or canceled campaigns for plays when the goal range was between two dollar amounts (for example, $1000 to $4999) instead of greater or less than a single amount. I initially set up the function as COUNTIFS(Kickstarter!$D:$D,">=1000","<=4999",Kickstarter!$F:$F,"successful",Kickstarter!$R:$R,"plays"), which gave me an alert that I had entered too few arguments for the function. I knew that the rest of my function was set up correctly because it had worked in the previous cell where the goal range was less than $1000, so I figured out that I needed to select the goal column (column D) from the Kickstarter worksheet as the criteria_range a second time in order to set the upper bound of the campaign goal range.
+The first challenge was setting up the COUNTIFS() function correctly to count the number of successful, failed, or canceled campaigns for plays when the goal range was between two dollar amounts (for example, $1000 to $4999) instead of greater or less than a single amount. I initially set up the function as COUNTIFS(Kickstarter!D:D,">=1000","<=4999",Kickstarter!F:F,"successful",Kickstarter!R:R,"plays"), which gave me an alert that I had entered too few arguments for the function. I knew that the rest of my function was set up correctly because it had worked in the previous cell where the goal range was less than $1000, so I figured out that I needed to select the goal column (column D) from the Kickstarter worksheet as the criteria_range a second time in order to set the upper bound of the campaign goal range.
 
 The second challenge I encountered was that I did not initially use $ to indicate absolute cell references when setting up my COUNTIFS function. As a result, when I copied the formulas from the Number Successful column and pasted them into the Number Failed column with the plan to update the outcome criteria from “successful” to “failed,” the formulas were no longer referencing the correct criteria ranges. I started updating the criteria ranges in the Number Failed column manually, which was inefficient. I then realized I could use $ to indicate absolute cell references and thereby make the copying, pasting, and updating process more efficient as I went from the Number Successful to Number Failed and Number Canceled columns. 
 
